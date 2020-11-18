@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.model.Admin;
+import com.exam.model.HtmlQuestion;
 import com.exam.model.Question;
 import com.exam.model.User;
 import com.exam.service.AdminService;
+import com.exam.service.HtmlQuestionService;
 import com.exam.service.QuestionService;
 import com.exam.service.UserService;
 
@@ -30,6 +32,9 @@ public class ExamController {
 	
 	@Autowired
 	QuestionService qservice;
+	
+	@Autowired
+	HtmlQuestionService hservice;
 	
 	
 	@PostMapping(value="/adduser")
@@ -73,10 +78,35 @@ public class ExamController {
 		return qservice.showAllQuestion();
 	}
 	
-	@PostMapping(value="/deletequestion")
+	@GetMapping(value="/deletequestion/afterdelete/{qid}")
 	public List<Question> deleteQuestion(@PathVariable int qid) {
 		qservice.deleteQuestion(qid);
 		return qservice.showAllQuestion();
+	}
+	
+	@PostMapping(value="/scores")
+	public int addScores(@RequestBody int scores ) {
+		System.out.println(scores);
+	return scores;
+	
+	}
+	
+	@PostMapping(value="/addhquestion")
+	public HtmlQuestion addHQuestion(@RequestBody HtmlQuestion h) {
+		
+		return hservice.addHQuestion(h);
+	}
+	
+	@GetMapping(value="/viewallhquestion")
+	public List<HtmlQuestion> getAllHQuestion(){
+		
+		return hservice.showAllHQuestion();
+	}
+	
+	@GetMapping(value="/deletehquestion/afterhdelete/{qid}")
+	public List<HtmlQuestion> deleteHQuestion(@PathVariable int qid) {
+		hservice.deleteHQuestion(qid);
+		return hservice.showAllHQuestion();
 	}
 
 }
